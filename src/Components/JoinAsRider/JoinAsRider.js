@@ -253,7 +253,7 @@ const JoinAsRider = () => {
                   onClick={reset}
                   className="btn btn-warning float-right"
                 >
-                  Reset
+                  Reset.
                 </button>
               </div>
             </div>
