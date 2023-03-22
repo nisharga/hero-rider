@@ -4,6 +4,7 @@ import App from "../../App";
 import JoinAsRider from "../../Components/JoinAsRider/JoinAsRider";
 import JoinAsLearner from "../../Components/JoinAsLearner/JoinAsLearner";
 import NotFound from "./../../Shared/NotFound/NotFound";
+import Login from "../../Components/Login/Login";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -21,6 +22,10 @@ const Router = createBrowserRouter([
       {
         path: "/learner",
         element: <JoinAsLearner />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },

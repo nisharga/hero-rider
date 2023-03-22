@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import * as Yup from "yup";
 import "./Joinasrider.css";
 import Bgvideo from "../../Shared/Bgvideo/Bgvideo";
+import auth from "./../../Shared/Auth/Auth";
 const JoinAsRider = () => {
   const validationSchema = Yup.object().shape({
-    fullname: Yup.string().required("Fullname is required"),
-    username: Yup.string()
-      .required("Username is required")
-      .min(6, "Username must be at least 6 characters")
-      .max(20, "Username must not exceed 20 characters"),
+    fullname: Yup.string()
+      .required("Fullname is required")
+      .min(6, "Fullname must be at least 6 characters")
+      .max(20, "Fullname must not exceed 20 characters"),
     email: Yup.string().required("Email is required").email("Email is invalid"),
     password: Yup.string()
       .required("Password is required")
@@ -29,8 +30,91 @@ const JoinAsRider = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit = (data) => {
-    console.log(JSON.stringify(data, null, 2));
+  const [drive_licenceImg, setDriveLicenseImg] = useState();
+  const [nidImg, setNidImg] = useState();
+  const [profileImg, setProfileImg] = useState();
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+
+  const onSubmit = async (data) => {
+    const acceptTerms = data.acceptTerms;
+    const address = data.address;
+    const age = data.age;
+    const area = data.area;
+    const password = data.password;
+    const email = data.email;
+    const fullName = data.fullname;
+    const info = data.info;
+    const phone = data.phone;
+    const vehecle = data.vehecle;
+    const role = "rider";
+
+    await createUserWithEmailAndPassword(email, password);
+    // save signup information in database
+    fetch("http://localhost:5000/adduser", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fullName: fullName,
+        email: email,
+        age: age,
+        address: address,
+        phone: phone,
+        drive_licenceImg: drive_licenceImg,
+        area: area,
+        nidImg: nidImg,
+        profileImg: profileImg,
+        vehecle: vehecle,
+        info: info,
+        role: role,
+        acceptTerms: acceptTerms,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  const ProfileImgChange = (e) => {
+    const avater = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", avater);
+    const url = `https://api.imgbb.com/1/upload?key=a57c49961905bdc8992484e12c0aa9d5`;
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => setProfileImg(data.data.url));
+  };
+  const DrivingImgChange = (e) => {
+    const drivinglycence = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", drivinglycence);
+    const url = `https://api.imgbb.com/1/upload?key=a57c49961905bdc8992484e12c0aa9d5`;
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => setDriveLicenseImg(data.data.url));
+  };
+  const NidImgChange = (e) => {
+    const nidImg = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", nidImg);
+    const url = `https://api.imgbb.com/1/upload?key=a57c49961905bdc8992484e12c0aa9d5`;
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => setNidImg(data.data.url));
   };
   return (
     <>
@@ -42,7 +126,7 @@ const JoinAsRider = () => {
             <div className="row">
               <div className="col-sm-6">
                 <div className="form-group">
-                  <label>Full Name</label>
+                  <label>Full Name *</label>
                   <input
                     name="fullname"
                     type="text"
@@ -57,7 +141,7 @@ const JoinAsRider = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Email</label>
+                  <label>Email *</label>
                   <input
                     name="email"
                     type="text"
@@ -117,7 +201,7 @@ const JoinAsRider = () => {
                   <input
                     name="drive_licence"
                     type="file"
-                    {...register("drive_licence")}
+                    onChange={DrivingImgChange}
                     className={`form-control ${
                       errors.drive_licence ? "is-invalid" : ""
                     }`}
@@ -146,7 +230,7 @@ const JoinAsRider = () => {
                   <input
                     name="nid"
                     type="file"
-                    {...register("nid")}
+                    onChange={NidImgChange}
                     className={`form-control ${errors.nid ? "is-invalid" : ""}`}
                   />
                   <div className="invalid-feedback">{errors.nid?.message}</div>
@@ -156,8 +240,9 @@ const JoinAsRider = () => {
                   <label>Profile Picture</label>
                   <input
                     name="profilep"
+                    onChange={ProfileImgChange}
                     type="file"
-                    {...register("profilep")}
+                    // {...register("profilep")}
                     className={`form-control ${
                       errors.profilep ? "is-invalid" : ""
                     }`}
@@ -182,7 +267,7 @@ const JoinAsRider = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Password</label>
+                  <label>Password *</label>
                   <input
                     name="password"
                     type="password"
@@ -197,7 +282,7 @@ const JoinAsRider = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Confirm Password</label>
+                  <label>Confirm Password *</label>
                   <input
                     name="confirmPassword"
                     type="password"
@@ -226,6 +311,9 @@ const JoinAsRider = () => {
                     {errors.vehecle?.message}
                   </div>
                 </div>
+                <p>{error?.message}</p>
+                <p>{loading ? "Loading" : ""}</p>
+                <p>{user ? "User Create Sucessfull" : ""}</p>
               </div>
               <div className="form-group form-check">
                 <input
@@ -237,7 +325,7 @@ const JoinAsRider = () => {
                   }`}
                 />
                 <label htmlFor="acceptTerms" className="form-check-label">
-                  I have read and agree to the Terms
+                  I have read and agree to the Terms *
                 </label>
                 <div className="invalid-feedback">
                   {errors.acceptTerms?.message}
@@ -248,13 +336,13 @@ const JoinAsRider = () => {
                 <button type="submit" className="btn btn-primary">
                   Register
                 </button>
-                <button
+                {/* <button
                   type="button"
                   onClick={reset}
                   className="btn btn-warning float-right"
                 >
                   Reset.
-                </button>
+                </button> */}
               </div>
             </div>
           </form>

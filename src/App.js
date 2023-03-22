@@ -13,6 +13,9 @@ function App() {
           <Link to="/learner">Join as a Driving Lesson Learner</Link>
         </div>
       </div>
+      <div class="login_btn btn btn-outline-info btn-lg">
+        <Link to="/login">Login</Link>
+      </div>
     </div>
   );
 }

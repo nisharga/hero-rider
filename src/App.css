@@ -21,7 +21,7 @@
   flex-wrap: wrap;
   justify-content: center;
 }
-.container_hero .hero_btn {
+.hero_btn {
   position: relative;
   top: 0;
   left: 0;
@@ -34,7 +34,7 @@
   margin: 10px 20px;
   text-align: center;
 }
-.container_hero .hero_btn a {
+.hero_btn a {
   position: absolute;
   top: 0;
   left: 0;
@@ -58,10 +58,10 @@
   transition: 0.5s;
   backdrop-filter: blur(15px);
 }
-.container_hero .hero_btn:hover a {
+.hero_btn:hover a {
   letter-spacing: 3px;
 }
-.container_hero .hero_btn a::before {
+.hero_btn a::before {
   content: "";
   position: absolute;
   top: 0;
@@ -73,10 +73,10 @@
   transition: 0.5s;
   filter: blur(0px);
 }
-.container_hero .hero_btn:hover a::before {
+.hero_btn:hover a::before {
   transform: skewX(45deg) translate(200px);
 }
-.container_hero .hero_btn::before {
+.hero_btn::before {
   content: "";
   position: absolute;
   left: 50%;
@@ -89,14 +89,14 @@
   transition: 0.5s;
   transition-delay: 0.5;
 }
-.container_hero .hero_btn:hover::before {
+.hero_btn:hover::before {
   bottom: 0;
   height: 50%;
   width: 80%;
   border-radius: 30px;
 }
 
-.container_hero .hero_btn::after {
+.hero_btn::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -109,21 +109,31 @@
   transition: 0.5s;
   transition-delay: 0.5;
 }
-.container_hero .hero_btn:hover::after /*lightup button*/ {
+.hero_btn:hover::after /*lightup button*/ {
   top: 0;
   height: 50%;
   width: 80%;
   border-radius: 30px;
 }
-.container_hero .hero_btn:nth-child(1)::before, /*chnage 1*/
-.container_hero .hero_btn:nth-child(1)::after {
+.hero_btn:nth-child(1)::before, /*chnage 1*/
+ .hero_btn:nth-child(1)::after {
   background: #ff1f71;
   box-shadow: 0 0 5px #ff1f71, 0 0 15px #ff1f71, 0 0 30px #ff1f71,
     0 0 60px #ff1f71;
 }
-.container_hero .hero_btn:nth-child(2)::before, /* 2*/
-.container_hero .hero_btn:nth-child(2)::after {
+.hero_btn:nth-child(2)::before, /* 2*/
+ .hero_btn:nth-child(2)::after {
   background: #2db2ff;
   box-shadow: 0 0 5px #2db2ff, 0 0 15px #2db2ff, 0 0 30px #2db2ff,
     0 0 60px #2db2ff;
+}
+
+.login_btn {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
+.login_btn a {
+  text-decoration: none;
+  color: #fff;
 }
