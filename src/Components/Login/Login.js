@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import * as Yup from "yup";
 import Bgvideo from "../../Shared/Bgvideo/Bgvideo";
 import auth from "./../../Shared/Auth/Auth";
@@ -22,11 +25,12 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
   const onSubmit = async (data) => {
     const password = data.password;
     const email = data.email;
-    console.log(email, password);
+    signInWithEmailAndPassword(email, password);
   };
   return (
     <>
@@ -85,6 +89,9 @@ const Login = () => {
                   <button type="submit" className="btn btn-primary">
                     Login
                   </button>
+                  <p>{loading ? "Loading..." : ""}</p>
+                  <p>{error ? error.message : ""}</p>
+                  <p>{user ? "login-sucessful" : ""}</p>
                 </div>
               </div>
             </div>

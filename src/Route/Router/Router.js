@@ -5,6 +5,10 @@ import JoinAsRider from "../../Components/JoinAsRider/JoinAsRider";
 import JoinAsLearner from "../../Components/JoinAsLearner/JoinAsLearner";
 import NotFound from "./../../Shared/NotFound/NotFound";
 import Login from "../../Components/Login/Login";
+import Profile from "../../Components/Profile/Profile";
+import RequireAuth from "./../RequireAuth/RequireAuth";
+import AdminPage from "../../Components/AdminPage/AdminPage";
+import Package from "../../Components/Package/Package";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +30,18 @@ const Router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/dashboard",
+        element: <AdminPage />,
+      },
+      {
+        path: "/package",
+        element: <Package />,
       },
     ],
   },
