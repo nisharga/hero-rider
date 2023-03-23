@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import "../JoinAsRider/Joinasrider.css";
 import Bgvideo from "../../Shared/Bgvideo/Bgvideo";
 import auth from "./../../Shared/Auth/Auth";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const JoinAsLearner = () => {
   const validationSchema = Yup.object().shape({
@@ -49,7 +50,7 @@ const JoinAsLearner = () => {
 
     await createUserWithEmailAndPassword(email, password);
     // save signup information in database
-    fetch("http://localhost:5000/addlearner", {
+    fetch("http://localhost:5000/adduser", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -75,6 +76,16 @@ const JoinAsLearner = () => {
         console.error("Error:", error);
       });
   };
+
+  // Redirect to that from page
+  let navigate = useNavigate();
+  let location = useLocation();
+
+  let from = location.state?.from?.pathname || "/profile";
+  if (user) {
+    navigate(from, { replace: true });
+  }
+
   const ProfileImgChange = (e) => {
     const avater = e.target.files[0];
     const formData = new FormData();

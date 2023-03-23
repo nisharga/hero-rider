@@ -8,6 +8,7 @@ import {
 import * as Yup from "yup";
 import Bgvideo from "../../Shared/Bgvideo/Bgvideo";
 import auth from "./../../Shared/Auth/Auth";
+import { useLocation, useNavigate } from "react-router-dom";
 const Login = () => {
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Email is required").email("Email is invalid"),
@@ -32,6 +33,14 @@ const Login = () => {
     const email = data.email;
     signInWithEmailAndPassword(email, password);
   };
+  // Redirect to that from page
+  let navigate = useNavigate();
+  let location = useLocation();
+
+  let from = location.state?.from?.pathname || "/profile";
+  if (user) {
+    navigate(from, { replace: true });
+  }
   return (
     <>
       <Bgvideo />

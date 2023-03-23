@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import "./Joinasrider.css";
 import Bgvideo from "../../Shared/Bgvideo/Bgvideo";
 import auth from "./../../Shared/Auth/Auth";
+import { useLocation, useNavigate } from "react-router-dom";
 const JoinAsRider = () => {
   const validationSchema = Yup.object().shape({
     fullname: Yup.string()
@@ -80,6 +81,16 @@ const JoinAsRider = () => {
         console.error("Error:", error);
       });
   };
+
+  // Redirect to that from page
+  let navigate = useNavigate();
+  let location = useLocation();
+
+  let from = location.state?.from?.pathname || "/profile";
+  if (user) {
+    navigate(from, { replace: true });
+  }
+
   const ProfileImgChange = (e) => {
     const avater = e.target.files[0];
     const formData = new FormData();
