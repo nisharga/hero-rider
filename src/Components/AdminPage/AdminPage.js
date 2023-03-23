@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import Bgvideo from "../../Shared/Bgvideo/Bgvideo";
 import auth from "./../../Shared/Auth/Auth";
 import AlluserTable from "./AlluserTable/AlluserTable";
+import SearchByAge from "./SearchByAge/SearchByAge";
+import SearchByEmail from "./SearchByEmail/SearchByEmail";
+import SearchByFullName from "./SearchByFullName/SearchByFullName";
+import SearchByPhone from "./SearchByPhone/SearchByPhone";
 const AdminPage = () => {
   const [alluser, setalluser] = useState();
   useEffect(() => {
-    const url = `http://localhost:5000/alluser`;
+    const url = `https://pro-hero-rider-server.vercel.app/alluser`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setalluser(data));
@@ -45,6 +49,16 @@ const AdminPage = () => {
                   )) || <p>Loading</p>}
                 </thead>
               </table>
+            </div>
+            <div className="col-md-2">
+              <SearchByEmail />
+              <hr />
+              <SearchByPhone />
+            </div>
+            <div className="col-md-2">
+              <SearchByFullName />
+              <hr />
+              <SearchByAge />
             </div>
           </div>
         </div>

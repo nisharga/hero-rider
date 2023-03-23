@@ -9,7 +9,7 @@ const Profile = () => {
   const [singleUser, setsingleUser] = useState();
   const [signOut] = useSignOut(auth);
   useEffect(() => {
-    const url = `http://localhost:5000/user/${user?.email}`;
+    const url = `https://pro-hero-rider-server.vercel.app/user/${user?.email}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setsingleUser(data[0]));
@@ -34,11 +34,16 @@ const Profile = () => {
             ""
           )}
         </span>
-        {}
+        <span>
+          {singleUser?.role === "learner" ? (
+            <Link to="/package" className="btn btn-lg btn-outline-info">
+              Buy Packages
+            </Link>
+          ) : (
+            ""
+          )}
+        </span>
         {")"}
-        {/* {singleUser.role === "Admin" && (
-          <Link to="/dashboard">Dashboard</Link>
-        )} */}
       </h1>
       <div className="register-form">
         <div className="container">

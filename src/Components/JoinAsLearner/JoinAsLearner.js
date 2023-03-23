@@ -50,7 +50,7 @@ const JoinAsLearner = () => {
 
     await createUserWithEmailAndPassword(email, password);
     // save signup information in database
-    fetch("http://localhost:5000/adduser", {
+    fetch("https://pro-hero-rider-server.vercel.app/adduser", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
